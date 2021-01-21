@@ -1,0 +1,201 @@
+#main {
+  height: 50vh !important;
+  overflow: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  padding: 20px;
+}
+
+#main::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.flex-item {
+  flex: 1 1 0px;
+}
+
+/* #fileSelectionDialog {
+  display: grid !important;
+  place-items: center !important;
+} */
+
+.icon {
+  cursor: pointer;
+  font-size: 20px !important;
+  margin: 0 10px;
+}
+
+/* Body CSS */
+.badge {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #dbdbdb;
+}
+
+.badge:hover {
+  background-color: #eeeeee;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.vertical_scrollbar {
+  overflow: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.vertical_scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 990px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+/* To create multi-level dropdown */
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu > a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+  border-left-color: #454545;
+}
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+.image_logo {
+  /* width: 150px; */
+  height: 55px;
+}
+
+.pointer_events_none {
+  pointer-events: none;
+}
+
+.file_hover_btn_container {
+  visibility: hidden;
+  opacity: 0;
+  display: flex !important;
+  justify-content: center !important;
+  bottom: -40px;
+  background-color: #ccc;
+  transition: all 100ms ease-in-out;
+}
+
+.file_hover_btn {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+  display: grid;
+  place-items: center;
+  margin: 10px;
+  color: #ffffff;
+}
+
+.file_container {
+  /* cursor: pointer; */
+  transition: all 250ms ease-in-out;
+  overflow: hidden !important;
+}
+
+.file_container:hover > .file_container_div {
+  filter: brightness(0.5) !important;
+  transition: all 250ms ease-in-out;
+}
+
+.file_selected .file_hover_btn:nth-child(1) {
+  /* background-color: rgba(0, 128, 0, 0.8); */
+  background-color: #007bff;
+}
+
+.file_container:hover > .file_hover_btn_container {
+  visibility: visible;
+  opacity: 1;
+  bottom: 0px;
+  transition: all 250ms ease-in-out;
+}
+
+.file_hover_btn_container_visible {
+  visibility: visible;
+  opacity: 1;
+  bottom: 0px;
+  transition: all 250ms ease-in-out;
+}
+
+.file_container_div_filter {
+  filter: brightness(0.5) !important;
+  transition: all 250ms ease-in-out;
+}

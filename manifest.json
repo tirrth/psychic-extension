@@ -1,0 +1,25 @@
+{
+  "name": "Trial Extension",
+  "version": "1.0",
+  "description": "Let's Build an Extension!",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["jquery.min.js", "bootstrap.min.js", "content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "jquery.min.js",
+    "bootstrap.min.js",
+    "bootstrap.min.css",
+    "modal.js",
+    "images/*",
+    "modal.html"
+  ],
+  "permissions": ["activeTab", "tabs", "<all_urls>", "downloads"],
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com https://maxcdn.bootstrapcdn.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com; object-src 'self'"
+}
