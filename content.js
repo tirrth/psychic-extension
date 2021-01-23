@@ -43,7 +43,6 @@ observer.observe(targetNode, config);
 
 var current_file_input;
 var iframe = document.createElement("iframe");
-let toBool = (string) => (string === "true" ? true : false);
 const get_modal_url = chrome.extension.getURL("modal.html");
 iframe.src = get_modal_url;
 iframe.setAttribute("allowTransparency", true);
@@ -55,22 +54,16 @@ iframe.id = "fileDialogFrame";
 
 function _onInputFileClickFnBind() {
   $("input[type=file]").each(function () {
-    $(this).off("click");
-    $(this).on("click", async (event) => {
-      event.preventDefault();
-      current_file_input = $(this);
+    _onInputClick($(this));
+  });
+}
 
-      iframe.setAttribute(
-        "data-multiple",
-        $(this).attr("multiple") ? true : false
-      );
-      iframe.setAttribute("data-accept", $(this).attr("accept") || "");
-      $(iframe).appendTo("body");
-
-      // $(this).attr("type", "hidden");
-      // await new Promise((resolve) => setTimeout(resolve, 0));
-      // $(this).attr("type", "file");
-    });
+function _onInputClick(input) {
+  input.off("click");
+  input.on("click", async (event) => {
+    event.preventDefault();
+    current_file_input = input;
+    $(iframe).appendTo("body");
   });
 }
 
@@ -88,7 +81,9 @@ window.addEventListener(
           ) {
             var _window = iframe.contentWindow;
             _window.postMessage(
-              { multiple: toBool(iframe.getAttribute("data-multiple")) },
+              {
+                multiple: current_file_input.attr("multiple") ? true : false,
+              },
               iframe.src
             );
           }
@@ -102,60 +97,12 @@ window.addEventListener(
         break;
 
       case "openLocalFileDialog":
-        if (toBool(iframe.getAttribute("data-multiple"))) {
-          const random_id = `${
-            Math.random().toString(36).substr(2, 9) + new Date().valueOf()
-          }`;
-          try {
-            let hidden_file_input = `<input id=${random_id} style="display: none;" type="file" />`;
-            $(hidden_file_input).appendTo(document.body);
-            if (toBool(iframe.getAttribute("data-multiple"))) {
-              document.getElementById(random_id).setAttribute("multiple", "");
-            }
-            iframe.getAttribute("data-accept")
-              ? document
-                  .getElementById(random_id)
-                  .setAttribute("accept", iframe.getAttribute("data-accept"))
-              : null;
-            document.getElementById(random_id).click();
-            let list = new DataTransfer();
-            $(`#${random_id}`).on("change", function (e) {
-              for (let i = 0; i < e.target.files.length; i++) {
-                list.items.add(e.target.files[i]);
-              }
-              let customisedFileList = list.files;
-              current_file_input.prop("files", customisedFileList);
-            });
-          } catch (err) {
-            console.log(err);
-          } finally {
-            document.getElementById(random_id).remove();
-          }
-        } else {
-          let fileHandle;
-          const pickerOpts = {
-            types: [
-              {
-                description: "Files",
-                accept: {
-                  "image/*": [".png", ".gif", ".jpeg", ".jpg"],
-                  "video/*": [".mp4"],
-                },
-              },
-            ],
-            excludeAcceptAllOption: true,
-            multiple: false,
-          };
-          try {
-            [fileHandle] = await window.showOpenFilePicker(pickerOpts);
-            const fileData = await fileHandle.getFile();
-            let list = new DataTransfer();
-            list.items.add(fileData);
-            let customisedFileList = list.files;
-            current_file_input.prop("files", customisedFileList);
-          } catch (err) {
-            console.log(err);
-          }
+        try {
+          current_file_input.off("click");
+          current_file_input.click();
+          _onInputClick(current_file_input);
+        } catch (err) {
+          console.log(err);
         }
         break;
 
@@ -232,7 +179,12 @@ async function _uploadFiles(file_src_arr) {
   );
 
   let customisedFileList = list.files;
-  current_file_input.prop("files", customisedFileList);
+  // console.log("list.items, list.files, list", list.items, list.files, list);
+
+  if (customisedFileList.length) {
+    current_file_input.prop("files", customisedFileList);
+  }
+  console.log(current_file_input.prop("files"));
   console.log("File/s Uploaded successfully!!");
   return JSON.stringify("File/s Uploaded successfully!!");
 }
