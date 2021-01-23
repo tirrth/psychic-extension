@@ -21,8 +21,8 @@ const callback = function (mutationsList, observer) {
         for (let i = 0; i < mutation.addedNodes.length; i++) {
           if (
             mutation.addedNodes[i] instanceof HTMLElement &&
-            mutation.addedNodes[i].querySelectorAll("input[type='file']")
-              .length > 0
+            mutation.addedNodes[i].querySelectorAll("input[type=file]").length >
+              0
           ) {
             _onInputFileClickFnBind();
           }
@@ -46,10 +46,8 @@ var iframe = document.createElement("iframe");
 const get_modal_url = chrome.extension.getURL("modal.html");
 iframe.src = get_modal_url;
 iframe.setAttribute("allowTransparency", true);
-iframe.setAttribute(
-  "style",
-  "position: absolute; border: none; left: 0px; top: 0px; height: 100vh; width: 100vw; z-index: 20000000; display: grid; place-items: center;"
-);
+iframe.style.cssText =
+  "position: absolute; border: none; left: 0px; top: 0px; height: 100vh; width: 100vw; z-index: 20000000; display: grid; place-items: center;";
 iframe.id = "fileDialogFrame";
 
 function _onInputFileClickFnBind() {
@@ -71,7 +69,7 @@ function _onInputClick(input) {
 window.addEventListener(
   "message",
   async (event) => {
-    switch (event.data.type) {
+    switch (`${event.data.type}`) {
       case "iframeLoaded":
         try {
           // One way to send data back to the child iframe
@@ -183,6 +181,8 @@ async function _uploadFiles(file_src_arr) {
   if (customisedFileList.length) {
     current_file_input.prop("files", customisedFileList);
   }
+  var onchange_event = new Event("change", { bubbles: true });
+  current_file_input.get(0).dispatchEvent(onchange_event);
   console.log("File/s Uploaded successfully!!");
   return JSON.stringify("File/s Uploaded successfully!!");
 }
