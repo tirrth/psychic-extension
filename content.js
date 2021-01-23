@@ -45,9 +45,8 @@ var current_file_input;
 var iframe = document.createElement("iframe");
 const get_modal_url = chrome.extension.getURL("modal.html");
 iframe.src = get_modal_url;
-iframe.setAttribute("allowTransparency", true);
 iframe.style.cssText =
-  "position: absolute; border: none; left: 0px; top: 0px; height: 100vh; width: 100vw; z-index: 20000000; display: grid; place-items: center;";
+  "position: fixed; border: none; overflow: scroll; left: 0px; top: 0px; height: 100vh; width: 100vw; z-index: 20000000; display: grid; place-items: center;";
 iframe.id = "fileDialogFrame";
 
 function _onInputFileClickFnBind() {
@@ -177,11 +176,11 @@ async function _uploadFiles(file_src_arr) {
     })
   );
 
-  let customisedFileList = list.files;
+  const customisedFileList = list.files;
   if (customisedFileList.length) {
     current_file_input.prop("files", customisedFileList);
   }
-  var onchange_event = new Event("change", { bubbles: true });
+  const onchange_event = new Event("change", { bubbles: true });
   current_file_input.get(0).dispatchEvent(onchange_event);
   console.log("File/s Uploaded successfully!!");
   return JSON.stringify("File/s Uploaded successfully!!");
