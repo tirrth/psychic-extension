@@ -3,18 +3,29 @@
 
 <head>
   <title>Popup</title>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-  <script type="application/javascript" charset="utf-8" src="popup.js"></script>
+  <link rel="stylesheet" href="popup.css" />
   <script type="application/javascript" charset="utf-8" src="jquery.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="popup.js"></script>
 </head>
 
-<body class="body-popup" style="display: flex;
+<!-- <body class="body-popup" style="display: flex;
 flex-direction:column;
 justify-content: center;
 align-items: center;">
   <form id="form">
     <input type="url" id="link_url" placeholder="Enter link" />
   </form>
+</body> -->
+
+<body>
+  <button id="enable" class="hide">Enable</button>
+  <button id="disable">Disable</button>
+  <span id="status" class="hide"></span>
+  <hr />
+  <button id="config">Settings</button>
+  <hr />
+  <button id="feedback" class="secondary"> Send feedback</button>
+  <button id="about" class="secondary">About</button>
 </body>
 
 </html>
