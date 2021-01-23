@@ -63,7 +63,8 @@ function _onInputClick(input) {
   input.on("click", async (event) => {
     event.preventDefault();
     current_file_input = input;
-    $(iframe).appendTo("body");
+    // $(iframe).appendTo("body");
+    document.body.appendChild(iframe);
   });
 }
 
@@ -179,12 +180,9 @@ async function _uploadFiles(file_src_arr) {
   );
 
   let customisedFileList = list.files;
-  // console.log("list.items, list.files, list", list.items, list.files, list);
-
   if (customisedFileList.length) {
     current_file_input.prop("files", customisedFileList);
   }
-  console.log(current_file_input.prop("files"));
   console.log("File/s Uploaded successfully!!");
   return JSON.stringify("File/s Uploaded successfully!!");
 }
