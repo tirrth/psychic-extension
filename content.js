@@ -143,7 +143,10 @@ async function _uploadFiles(file_src_arr) {
   let list = new DataTransfer();
 
   const URLtoFile = (url) =>
-    fetch(url)
+    fetch(url, {
+      mode:
+        "cors" /* OPTIONS >>>>>>>> same-origin, no-cors, cors(given by default) */,
+    })
       .then((response) => response.blob())
       .then((blob) => {
         const file_extension = blob.type.split("/")[1];

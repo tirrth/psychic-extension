@@ -747,17 +747,7 @@ function _googleImageSearch(url_query) {
 
       $("#main").append(`<div class="row"></div>`);
 
-      for (let i = 0; i < doc.getElementsByClassName("t0fcAb").length; i++) {
-        $(".row").append(
-          `<div class="column mb-2"><div class="position-relative file_container w-100 h-100"><div class="bg-light w-100 h-100 border h-100 file_container_div w-100 d-flex align-items-center justify-content-center"><img data-src=${doc
-            .getElementsByClassName("t0fcAb")
-            [i].getAttribute("src")} src=${doc
-            .getElementsByClassName("t0fcAb")
-            [i].getAttribute(
-              "src"
-            )} class="m-0 p-0"/></div>${hover_btns}</div></div>`
-        );
-      }
+      _googleImageHandler(doc);
 
       next_page_url =
         url + encodeURIComponent(query) + "&start=" + current_page * 20;
@@ -797,27 +787,21 @@ function _googleImageSearch(url_query) {
           $("#extension_google_captch_form_refresh").on("click", () => {
             _googleImageSearch(query);
           });
+
+          next_page_url = null;
+          $(".bottom_file_loader").remove();
+
           throw "CAPTCHA FORM";
+        } else {
+          _googleImageHandler(doc);
+
+          current_page += 1;
+          next_page_url =
+            url + encodeURIComponent(query) + "&start=" + current_page * 20;
+
+          $(".bottom_file_loader").remove();
+          $("#main").on("scroll", _scrollHandler);
         }
-
-        for (let i = 0; i < doc.getElementsByClassName("t0fcAb").length; i++) {
-          $(".row").append(
-            `<div class="column mb-2"><div class="position-relative file_container w-100 h-100"><div class="bg-light w-100 h-100 border h-100 file_container_div w-100 d-flex align-items-center justify-content-center"><img data-src=${doc
-              .getElementsByClassName("t0fcAb")
-              [i].getAttribute("src")} src=${doc
-              .getElementsByClassName("t0fcAb")
-              [i].getAttribute(
-                "src"
-              )} class="m-0 p-0"/></div>${hover_btns}</div></div>`
-          );
-        }
-
-        current_page += 1;
-        next_page_url =
-          url + encodeURIComponent(query) + "&start=" + current_page * 20;
-
-        $("#main").on("scroll", _scrollHandler);
-        $(".bottom_file_loader").remove();
       })
       .catch(function (err) {
         console.log("Something went wrong.", err);
@@ -827,6 +811,115 @@ function _googleImageSearch(url_query) {
           url: url + encodeURIComponent(query),
         });
       });
+  }
+
+  function _googleImageHandler(doc) {
+    for (let i = 0; i < doc.getElementsByClassName("t0fcAb").length; i++) {
+      $(".row").append(
+        `<div class="column mb-2"><div class="position-relative file_container w-100 h-100"><div class="bg-light w-100 h-100 border h-100 file_container_div w-100 d-flex align-items-center justify-content-center"><img data-src=${doc
+          .getElementsByClassName("t0fcAb")
+          [i].getAttribute("src")} src=${doc
+          .getElementsByClassName("t0fcAb")
+          [i].getAttribute(
+            "src"
+          )} class="m-0 p-0"/></div>${hover_btns}</div></div>`
+      );
+    }
+
+    /* -------------------------------------- Image Handling Events -------------------------------------- */
+
+    $(".file_container_div").each(function () {
+      $(this).off("click");
+      $(this).on("click", function () {
+        var prev_status = $(this)
+          .parent()
+          .find(".file_hover_btn_container")
+          .hasClass("file_selected");
+        // If Multiple Selection is allowed
+        if (!is_multiple_selection_allowed) {
+          $(".file_container_div")
+            .parent()
+            .find(".file_hover_btn_container")
+            .removeClass("file_selected file_hover_btn_container_visible");
+          $(".file_container_div").removeClass("file_container_div_filter");
+        }
+
+        if (prev_status) {
+          $(this)
+            .parent()
+            .find(".file_hover_btn_container")
+            .removeClass("file_selected file_hover_btn_container_visible");
+          $(this).removeClass("file_container_div_filter");
+        } else {
+          $(this)
+            .parent()
+            .find(".file_hover_btn_container")
+            .addClass("file_selected file_hover_btn_container_visible");
+          $(this).addClass("file_container_div_filter");
+        }
+
+        $(document).trigger("customSubmitBtnHandler");
+      });
+    });
+
+    $(".file_hover_btn").each(function () {
+      $(this).off("click");
+      $(this).on("click", function () {
+        const img_src = $(this)
+          .parent()
+          .parent()
+          .find("img:first")
+          .attr("data-src");
+        if ($(this).attr("data-type") === "zoom") {
+          chrome.tabs.create({
+            url: img_src,
+          });
+        } else if ($(this).attr("data-type") === "download") {
+          chrome.downloads.download({ url: img_src });
+        } else if ($(this).attr("data-type") === "select") {
+          var prev_status = $(this).parent().hasClass("file_selected");
+          // If Multiple Selection is allowed
+          if (!is_multiple_selection_allowed) {
+            $(".file_container_div")
+              .parent()
+              .find(".file_hover_btn_container")
+              .removeClass("file_selected file_hover_btn_container_visible");
+            $(".file_container_div").removeClass("file_container_div_filter");
+          }
+
+          if (prev_status) {
+            $(this)
+              .parent()
+              .removeClass("file_selected file_hover_btn_container_visible");
+            $(this)
+              .parent()
+              .parent()
+              .find(".file_container_div")
+              .removeClass("file_container_div_filter");
+          } else {
+            $(this)
+              .parent()
+              .addClass("file_selected file_hover_btn_container_visible");
+            $(this)
+              .parent()
+              .parent()
+              .find(".file_container_div")
+              .addClass("file_container_div_filter");
+          }
+
+          $(document).trigger("customSubmitBtnHandler");
+        }
+      });
+    });
+
+    $("img").each(function () {
+      $(this).off("error");
+      $(this).on("error", function () {
+        $(this).parent().parent().remove();
+      });
+    });
+
+    /* -------------------------------------- END -------------------------------------- */
   }
 
   function _scrollHandler() {
