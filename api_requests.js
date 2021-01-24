@@ -706,16 +706,8 @@ function _googleImageSearch(url_query) {
         typeof doc.getElementById("captcha-form") != "undefined" &&
         doc.getElementById("captcha-form") != null
       ) {
-        _clearMainElement();
-
-        $("#main").append(
-          `<div class='container'><h3>Click on the below link after Submitting the captcha form...</h3><p id='extension_google_captch_form_refresh'>Click Here</p></div>`
-        );
-        $("#extension_google_captch_form_refresh").css("color", "blue");
-        $("#extension_google_captch_form_refresh").css("cursor", "pointer");
-        $("#extension_google_captch_form_refresh").on("click", () => {
-          _googleImageSearch(query);
-        });
+        _captchAlert();
+        next_page_url = null;
         throw "CAPTCHA FORM";
       }
 
@@ -778,19 +770,9 @@ function _googleImageSearch(url_query) {
           typeof doc.getElementById("captcha-form") != "undefined" &&
           doc.getElementById("captcha-form") != null
         ) {
-          _clearMainElement();
-          $("#main").append(
-            `<div class='container'><h3>Click on the below link after Submitting the captcha form...</h3><p id='extension_google_captch_form_refresh'>Click Here</p></div>`
-          );
-          $("#extension_google_captch_form_refresh").css("color", "blue");
-          $("#extension_google_captch_form_refresh").css("cursor", "pointer");
-          $("#extension_google_captch_form_refresh").on("click", () => {
-            _googleImageSearch(query);
-          });
-
+          _captchAlert();
           next_page_url = null;
           $(".bottom_file_loader").remove();
-
           throw "CAPTCHA FORM";
         } else {
           _googleImageHandler(doc);
@@ -920,6 +902,18 @@ function _googleImageSearch(url_query) {
     });
 
     /* -------------------------------------- END -------------------------------------- */
+  }
+
+  function _captchAlert() {
+    _clearMainElement();
+    $("#main").append(
+      `<div class='container'><h3>Click on the below link after Submitting the captcha form...</h3><p id='extension_google_captch_form_refresh'>Click Here</p></div>`
+    );
+    $("#extension_google_captch_form_refresh").css("color", "blue");
+    $("#extension_google_captch_form_refresh").css("cursor", "pointer");
+    $("#extension_google_captch_form_refresh").on("click", () => {
+      _googleImageSearch(query);
+    });
   }
 
   function _scrollHandler() {
