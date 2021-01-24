@@ -75,7 +75,7 @@ function _imageSearch(url_query, source_of_img) {
         Authorization: `Client-ID -Juz6uzdcIiywIM3pbnMrxjKZaL4-82jVOotqyJjoME`,
       };
       $(".modal-footer").prepend(
-        `<img src='images/unsplash_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/unsplash_logo.png' class="ml-3 image_logo" />`
       );
       break;
     case "pexels":
@@ -85,7 +85,7 @@ function _imageSearch(url_query, source_of_img) {
           "563492ad6f91700001000001d18016e313e04637b8e2eabb6f87d384",
       };
       $(".modal-footer").prepend(
-        `<img src='images/pexels_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/pexels_logo.png' class="ml-3 image_logo" />`
       );
       break;
     case "bing":
@@ -95,7 +95,7 @@ function _imageSearch(url_query, source_of_img) {
         "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
       };
       $(".modal-footer").prepend(
-        `<img src='images/bing_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/bing_logo.png' class="ml-3 image_logo" />`
       );
       break;
     case "pixabay":
@@ -103,7 +103,7 @@ function _imageSearch(url_query, source_of_img) {
       url = "https://pixabay.com/api/?key=" + API_KEY + "&q=";
       headers = {};
       $(".modal-footer").prepend(
-        `<img src='images/pixabay_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/pixabay_logo.png' class="ml-3 image_logo" />`
       );
       break;
   }
@@ -431,7 +431,7 @@ function _videoSearch(url_query, source_of_video) {
           "563492ad6f91700001000001d18016e313e04637b8e2eabb6f87d384",
       };
       $(".modal-footer").prepend(
-        `<img src='images/pexels_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/pexels_logo.png' class="ml-3 image_logo" />`
       );
       break;
     case "pixabay":
@@ -439,7 +439,7 @@ function _videoSearch(url_query, source_of_video) {
       url = "https://pixabay.com/api/videos/?key=" + API_KEY + "&q=";
       headers = {};
       $(".modal-footer").prepend(
-        `<img src='images/pixabay_logo.png' class="ml-3 image_logo" />`
+        `<img src='icons/pixabay_logo.png' class="ml-3 image_logo" />`
       );
       break;
   }
@@ -689,7 +689,7 @@ function _googleImageSearch(url_query) {
   url = "https://www.google.com/search?tbm=isch&gbv=1&q=";
   headers = {};
   $(".modal-footer").prepend(
-    `<img src='images/google_logo.png' class="ml-3 image_logo" />`
+    `<img src='icons/google_logo.png' class="ml-3 image_logo" />`
   );
   query = url_query;
 
